@@ -3,9 +3,11 @@ Log Explorer: a simple tool to explore and visualize your logs
 
 ## What is it?
 
-**Log Explorer** is a NPM package that allows you to explore your logs through a web interface.
+**Log Explorer** is a NPM package for exploring your logs through a web interface.
 
 It is a simple tool that can be used to quickly analyze your logs and find the information you need.
+
+Log Explorer is meant to be used locally, for production use advanced tools like [ELK](https://www.elastic.co/what-is/elk-stack) or [Splunk](https://www.splunk.com/) are recommended.
 
 <!-- <p align="center"><img src="https://raw.githubusercontent.com/danielefavi/npm-log-explorer/master/.github/images/exported-ui-sample.png" width="60%" height="70%" /></p> -->
 

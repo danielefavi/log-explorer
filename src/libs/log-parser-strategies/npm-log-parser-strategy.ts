@@ -2,7 +2,6 @@ import { LogEntry, LogParserStrategy } from '../../types/log-types';
 
 export default class NpmLogParserStrategy implements LogParserStrategy {
 
-
   public parse(log: string): LogEntry|null {
     const regex = /(?<number>\d+) (?<logLevel>silent|error|warn|notice|http|info|verbose|silly|timing) (?<detail>.+)/;
     const match = log.match(regex);
@@ -17,7 +16,6 @@ export default class NpmLogParserStrategy implements LogParserStrategy {
       return entry;
     }
 
-    console.log('NpmLogParserStrategy: No match found for log: ', log);
     return null;
   }
 }
