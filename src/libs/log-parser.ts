@@ -2,6 +2,7 @@ import { LogEntry, LogParserStrategy } from '../types/log-types';
 import Type1LogParserStrategy from './log-parser-strategies/type-1';
 import Type2LogParserStrategy from './log-parser-strategies/type-2';
 import Type3LogParserStrategy from './log-parser-strategies/type-3';
+import NpmLogParserStrategy from './log-parser-strategies/npm-log-parser-strategy';
 
 export default class LogParser {
 
@@ -9,6 +10,7 @@ export default class LogParser {
     new Type1LogParserStrategy(),
     new Type2LogParserStrategy(),
     new Type3LogParserStrategy(),
+    new NpmLogParserStrategy()
   ];
 
   public parse(log: string): LogEntry {
