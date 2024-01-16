@@ -22,6 +22,12 @@ Install the package globally:
 npm install -g log-explorer
 ```
 
+> **NOTE**: if you installed the old package `npm-log-explorer`, please uninstall it first.
+> If you still get an error during the installation use the `--force` flag:
+> ```bash
+> npm install -g log-explorer --force
+> ```
+
 ### Usage
 
 Run the following command in the directory where your logs are located:
