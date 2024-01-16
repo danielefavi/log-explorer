@@ -1,5 +1,5 @@
 {
-  "name": "npm-log-explorer",
+  "name": "log-explorer",
   "version": "2.0.0",
   "description": "Log Explorer: a simple tool to explore your logs through a web interface.",
   "license": "MIT",
