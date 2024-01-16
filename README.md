@@ -9,8 +9,8 @@ It is a simple tool that can be used to quickly analyze your logs and find the i
 
 <!-- <p align="center"><img src="https://raw.githubusercontent.com/danielefavi/npm-log-explorer/master/.github/images/exported-ui-sample.png" width="60%" height="70%" /></p> -->
 
-NPM: https://www.npmjs.com/package/npm-log-explorer  
-GitHub: https://github.com/danielefavi/npm-log-explorer
+NPM: https://www.npmjs.com/package/log-explorer  
+GitHub: https://github.com/danielefavi/log-explorer
 
 ## How to use it?
 
@@ -19,7 +19,7 @@ GitHub: https://github.com/danielefavi/npm-log-explorer
 Install the package globally:
 
 ```bash
-npm install -g npm-log-explorer
+npm install -g log-explorer
 ```
 
 ### Usage
