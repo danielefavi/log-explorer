@@ -127,16 +127,21 @@
                 const data = await response.json();
 
                 if (response.status !== 200) {
+                    showLoading(false);
                     throw new Error(data.error || data.message || 'Error occurred');
                 }
                 
                 if (data && data.length === 0) {
+                    const mainContent = document.querySelector('#main-content');
+                    mainContent.innerHTML = `<h3>No logs found in the current folder</h3>`;
                     sidebarHeading.innerHTML = '<span>No log file found</span>';
+                    showLoading(false);
                     return;
                 }
                 
                 sidebarHeading.innerHTML = '<span>Log Files</span>';
                 const sidebar = document.querySelector('#sidebarMenu .sidebar-sticky ul');
+
                 data.forEach(file => {
                     const li = document.createElement('li');
                     li.classList.add('nav-item');
@@ -354,7 +359,6 @@
                 links.forEach(link => {
                     link.classList.remove('disabled');
                 });
-
             }
         }
 
