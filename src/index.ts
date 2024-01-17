@@ -13,7 +13,6 @@ const app = express();
 
 app.use('/api', apiRoutes);
 // app.use(express.static(path.join(__dirname, '..', 'public')));
-app.get('/public/bootstrap.min.css', (req: Request, res: Response) => res.sendFile('bootstrap.min.css', { root: __dirname + '/../public' }));
 app.get('/', (req: Request, res: Response) => res.sendFile('index.html', { root: __dirname + '/../views' }));
 app.use('*', (req: Request, res: Response) => res.sendFile('404.html', { root: __dirname + '/../views' }));
 
