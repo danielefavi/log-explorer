@@ -9,7 +9,7 @@ It is a simple tool that can be used to quickly analyze your logs and find the i
 
 Log Explorer is meant to be used locally, for production use advanced tools like [ELK](https://www.elastic.co/what-is/elk-stack) or [Splunk](https://www.splunk.com/) are recommended.
 
-<img src="https://raw.githubusercontent.com/danielefavi/log-explorer/master/.github/images/log-explorer-screenshot-browser.png" />
+<img src="https://raw.githubusercontent.com/danielefavi/log-explorer/master/.github/images/log-explorer-screenshot.png" />
 
 NPM: https://www.npmjs.com/package/log-explorer  
 GitHub: https://github.com/danielefavi/log-explorer
