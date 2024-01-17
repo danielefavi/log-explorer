@@ -1,5 +1,4 @@
 import * as glob from 'glob';
-import path from 'path';
 import fs from 'fs';
 import { Request, Response } from 'express';
 import { LogEntry } from '../types/log-types';
@@ -34,7 +33,6 @@ export default class LogController {
     files.forEach((file: string) => {
       const stats = fs.statSync(file);
       if (stats.isFile()) {
-        // result.push(path.join(process.cwd(), file));
         result.push(file);
       }
     });

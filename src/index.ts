@@ -11,9 +11,11 @@ CliController.exec(process);
 const app = express();
 
 app.use('/api', apiRoutes);
-app.get('/', (req: Request, res: Response) => {
-  res.sendFile('index.html', { root: __dirname + '/../views' });
-});
+
+app.use('/public', express.static(__dirname + '/../public'));
+app.get('/', (req: Request, res: Response) => res.sendFile('index.html', { root: __dirname + '/../views' }));
+app.use('*', (req: Request, res: Response) => res.sendFile('404.html', { root: __dirname + '/../views' }));
+
 
 const port = getPort();
 

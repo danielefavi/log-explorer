@@ -51,7 +51,6 @@ class LogController {
         files.forEach((file) => {
             const stats = fs_1.default.statSync(file);
             if (stats.isFile()) {
-                // result.push(path.join(process.cwd(), file));
                 result.push(file);
             }
         });

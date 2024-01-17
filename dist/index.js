@@ -12,9 +12,9 @@ const cli_controller_1 = __importDefault(require("./controllers/cli.controller")
 cli_controller_1.default.exec(process);
 const app = (0, express_1.default)();
 app.use('/api', api_1.default);
-app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: __dirname + '/../views' });
-});
+app.use('/public', express_1.default.static(__dirname + '/../public'));
+app.get('/', (req, res) => res.sendFile('index.html', { root: __dirname + '/../views' }));
+app.use('*', (req, res) => res.sendFile('404.html', { root: __dirname + '/../views' }));
 const port = (0, helpers_1.getPort)();
 app
     .listen(port, () => {

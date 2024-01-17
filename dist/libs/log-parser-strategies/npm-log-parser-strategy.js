@@ -11,7 +11,6 @@ class NpmLogParserStrategy {
             entry.details = match.groups.detail;
             return entry;
         }
-        console.log('NpmLogParserStrategy: No match found for log: ', log);
         return null;
     }
 }
