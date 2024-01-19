@@ -5,21 +5,22 @@ import child_process from 'child_process';
 import { getPort } from './libs/helpers';
 import apiRoutes from './routes/api';
 import CliController from './controllers/cli.controller';
-// import path from 'path';
 
+// Execute the CLI command in case of HELP or VERSION, otherwise starts the server
 CliController.exec(process);
 
 const app = express();
 
+// setting up the routes
 app.use('/api', apiRoutes);
-// app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use('/public', express.static(__dirname + '/../public-web'));
+app.use('/public', express.static(__dirname + '/../public'));
 app.get('/', (req: Request, res: Response) => res.sendFile('index.html', { root: __dirname + '/../views' }));
 app.use('*', (req: Request, res: Response) => res.sendFile('404.html', { root: __dirname + '/../views' }));
 
-
+// getting the port number from the CLI arguments or using the default one
 const port = getPort();
 
+// starting the server
 app
   .listen(port, () => {
     const url = `http://localhost:${port}`;

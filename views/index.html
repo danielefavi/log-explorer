@@ -116,7 +116,7 @@
         let itemsPerPage = 100;
         let isLoadingNewFile = false;
 
-        window.addEventListener('load', async function() {
+        async function firstLoad() {
             const sidebarHeading = document.querySelector('#sidebar-heading');
             sidebarHeading.innerHTML = '<span>Loading...</span>';
             showLoading(true);
@@ -157,9 +157,9 @@
                 sidebarHeading.innerHTML = '<span>Error occurred</span>';
                 handleError('Error occurred loading the list of files', error, document.querySelector('#main-content'), response);
             }
-        });
+        }
 
-        window.addEventListener('scroll', () => {
+        function loadNextPageOnScroll() {
             if (isLoadingNewFile) return;
             
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -168,14 +168,12 @@
                 const mainContent = document.querySelector('#main-content');
                 fetchNextPage(++currentPage, file.dataset.file, mainContent);
             }
-        });
+        }
 
-        // Select the search input field
-        const searchInput = document.querySelector('#search-input');
-
-        // Add an event listener for the input event
-        searchInput.addEventListener('keydown', async function(e) {
+        async function searchLogs(e) {
             if (e.key !== 'Enter') return;
+            searchCurrentPage = 1;
+            
             // disable the field
             e.target.disabled = true;
 
@@ -218,7 +216,7 @@
                 handleError('Error occurred on searching', error, mainContent, response);
                 e.target.disabled = false;
             }
-        });
+        }
 
         async function fetchNextPage(page, file, mainContent) {
             showLoading(true);
@@ -249,12 +247,6 @@
             }
         }
 
-        document.querySelector('#sidebarMenu .sidebar-sticky').addEventListener('click', (e) => {
-            if (e.target.tagName === 'A') {
-                selectFileAction(e.target);
-            }
-        });
-
         function selectFileAction(aLinkElem) {
             currentPage = 1;
             isLoadingNewFile = true;
@@ -283,7 +275,7 @@
         }
 
         function clearSearchInputField() {
-            searchInput.value = '';
+            document.querySelector('#search-input').value = '';
         }
 
         function getSingleLogElement(log) {
@@ -392,6 +384,20 @@
 
             showLoading(false);
         }
+    
+        window.addEventListener('load', firstLoad);
+
+        // Add an event listener for the input event
+        document.querySelector('#search-input').addEventListener('keydown', searchLogs);
+    
+        document.querySelector('#sidebarMenu .sidebar-sticky').addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                selectFileAction(e.target);
+            }
+        });
+    
+        window.addEventListener('scroll', loadNextPageOnScroll);
+
     </script>
 </body>
 

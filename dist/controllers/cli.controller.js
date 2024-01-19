@@ -8,6 +8,11 @@ class CliController {
     static exec(process) {
         (new CliController(process)).cliExec();
     }
+    /**
+     * Execute the CLI command
+     *
+     * @returns void
+     */
     cliExec() {
         const args = this.process.argv.slice(2);
         switch (args[0]) {
@@ -21,11 +26,21 @@ class CliController {
                 break;
         }
     }
+    /**
+     * Display the version of the package
+     *
+     * @returns void
+     */
     version() {
         const packageJson = require('../../package.json');
         console.log(packageJson.version);
         this.process.exit(1);
     }
+    /**
+     * Display the help
+     *
+     * @returns void
+     */
     help() {
         console.log('');
         console.log('Log Explorer: a simple tool to explore your logs through a web interface.');

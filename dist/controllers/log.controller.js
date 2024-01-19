@@ -31,20 +31,48 @@ const fs_1 = __importDefault(require("fs"));
 const log_parser_1 = __importDefault(require("../libs/log-parser"));
 const readLastLines = __importStar(require("read-last-lines"));
 class LogController {
+    /**
+     * The instance of the controller
+     * @var {LogController}
+     */
     static instance;
+    /**
+     * The LogParser class is used to parse the log lines
+     * @var {LogParser}
+     */
     logParser;
     constructor() {
         this.logParser = new log_parser_1.default();
     }
+    /**
+     * Get the instance of the controller
+     *
+     * @return  {LogController}[return description]
+     */
     static getInstance() {
         if (!LogController.instance) {
             LogController.instance = new LogController();
         }
         return LogController.instance;
     }
+    /**
+     * Get the list of log files contained in the current directory (where the
+     * command is executed) and return it as JSON.
+     *
+     * @param   {Request}   req
+     * @param   {Response}  res
+     *
+     * @return  {Response<any, Record<string, any>>}
+     */
     static getLogFiles(req, res) {
         res.json(LogController.getInstance().getFileList());
     }
+    /**
+     * Get the list of log files contained in the current directory (where the
+     * command is executed).
+     *
+     * @return  {string[]}
+     */
     getFileList() {
         const result = [];
         const files = glob.sync('**/*.log', { cwd: process.cwd() });
@@ -57,6 +85,14 @@ class LogController {
         result.sort();
         return result;
     }
+    /**
+     * Get the content of a log file and return it as JSON.
+     *
+     * @param   {Request}   req
+     * @param   {Response}  res
+     *
+     * @return  void
+     */
     static async getLogFileContent(req, res) {
         const fileName = req.query.file;
         // check if the file exists
@@ -92,6 +128,14 @@ class LogController {
             res.status(500).json({ message: 'Error reading file' });
         }
     }
+    /**
+     * Search the logs for a given query and return the results as JSON.
+     *
+     * @param   {Request}   req
+     * @param   {Response}  res
+     *
+     * @return  void
+     */
     static searchLogs(req, res) {
         const queryParams = req.query;
         const query = queryParams.query;

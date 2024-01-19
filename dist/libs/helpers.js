@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPort = exports.validateServerPort = void 0;
+/**
+ * Perform the validation of the port number given in the CLI
+ *
+ * @param   {string|undefined}  port
+ *
+ * @return  {number}
+ */
 function validateServerPort(port) {
     if (typeof port === 'undefined') {
         throw new Error('Error: --port requires a port number');
@@ -15,6 +22,11 @@ function validateServerPort(port) {
     return portNum;
 }
 exports.validateServerPort = validateServerPort;
+/**
+ * Get the port number from the CLI arguments
+ *
+ * @return  {number}
+ */
 function getPort() {
     let port = 4321;
     let inx = null;

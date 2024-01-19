@@ -9,15 +9,17 @@ const child_process_1 = __importDefault(require("child_process"));
 const helpers_1 = require("./libs/helpers");
 const api_1 = __importDefault(require("./routes/api"));
 const cli_controller_1 = __importDefault(require("./controllers/cli.controller"));
-// import path from 'path';
+// Execute the CLI command in case of HELP or VERSION, otherwise starts the server
 cli_controller_1.default.exec(process);
 const app = (0, express_1.default)();
+// setting up the routes
 app.use('/api', api_1.default);
-// app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use('/public', express_1.default.static(__dirname + '/../public-web'));
+app.use('/public', express_1.default.static(__dirname + '/../public'));
 app.get('/', (req, res) => res.sendFile('index.html', { root: __dirname + '/../views' }));
 app.use('*', (req, res) => res.sendFile('404.html', { root: __dirname + '/../views' }));
+// getting the port number from the CLI arguments or using the default one
 const port = (0, helpers_1.getPort)();
+// starting the server
 app
     .listen(port, () => {
     const url = `http://localhost:${port}`;

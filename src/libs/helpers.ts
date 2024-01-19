@@ -1,4 +1,10 @@
-
+/**
+ * Perform the validation of the port number given in the CLI
+ *
+ * @param   {string|undefined}  port
+ *
+ * @return  {number}
+ */
 export function validateServerPort(port: string|undefined): number {
   if (typeof port === 'undefined') {
     throw new Error('Error: --port requires a port number');
@@ -15,6 +21,11 @@ export function validateServerPort(port: string|undefined): number {
   return portNum;
 }
 
+/**
+ * Get the port number from the CLI arguments
+ *
+ * @return  {number}
+ */
 export function getPort(): number {
   let port = 4321;
   let inx = null;
