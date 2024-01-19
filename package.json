@@ -24,7 +24,8 @@
   },
   "files": [
     "dist",
-    "views"
+    "views",
+    "public"
   ],
   "devDependencies": {
     "@types/express": "^4.17.21",
