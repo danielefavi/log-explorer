@@ -112,7 +112,6 @@
 
     <script>
         let currentPage = 1;
-        let searchCurrentPage = 1;
         let itemsPerPage = 100;
         let isLoadingNewFile = false;
 
@@ -172,9 +171,6 @@
 
         async function searchLogs(e) {
             if (e.key !== 'Enter') return;
-            searchCurrentPage = 1;
-            
-            // disable the field
             e.target.disabled = true;
 
             clearSelectedFile();
@@ -193,7 +189,7 @@
 
             let response = null;
             try {
-                response = await fetch(`/api/logs/search?query=${encodedSearchValue}&page=${searchCurrentPage}&items_per_page=${itemsPerPage}`);
+                response = await fetch(`/api/logs/search?query=${encodedSearchValue}`);
                 const data = await response.json();
 
                 if (response.status !== 200) {

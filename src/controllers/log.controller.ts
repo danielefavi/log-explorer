@@ -131,45 +131,21 @@ export default class LogController {
    *
    * @return  void
    */
-  public static searchLogs(req: Request, res: Response) {
+  public static async searchLogs(req: Request, res: Response) {
     const queryParams = req.query;
-  
     const query = queryParams.query as string;
-  
-    let page = parseInt(queryParams.page as string);
-    if (isNaN(page) || page < 1) {
-      page = 1;
-    }
-  
-    let itemsPerPage = parseInt(queryParams.items_per_page as string);
-    if (isNaN(itemsPerPage) || itemsPerPage < 1) {
-      itemsPerPage = 10;
-    }
-  
     const entries: LogEntry[] = [];
-    let fileCount = 0;
-  
     const files = LogController.getInstance().getFileList();
     
     for (const file of files) {
-      fileCount++;
-      if (fileCount <= (page - 1) * itemsPerPage) {
-        return;
-      }
-      if (fileCount > page * itemsPerPage) {
-        return;
-      }
-
-      const data = fs.readFileSync(file, 'utf-8');
+      const data = await readLastLines.read(file, 500); // reads last 1000 lines of the file.
+  
       const lines = data.split('\n');
       const logParser = LogController.getInstance().logParser;
-
-      for (const line of lines) {
-        if (line.trim() === '') {
-          continue;
-        }
+  
+      for (let line of lines) { 
         if (line.includes(query)) {
-          const parsedEntry = logParser.parse(line); // Assuming parseLog is defined and returns a LogEntry
+          const parsedEntry = logParser.parse(line); 
           if (parsedEntry) {
             parsedEntry.fileName = file;
             entries.push(parsedEntry);
@@ -177,12 +153,8 @@ export default class LogController {
         }
       }
     }
-          
-    if (entries.length > itemsPerPage) {
-      entries.splice(itemsPerPage);
-    }
-  
+
     res.json(entries);
   }
-   
+
 }
