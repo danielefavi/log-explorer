@@ -1,4 +1,6 @@
 import { Settings } from '../types/log-types';
+import fs from 'fs';
+import * as glob from 'glob';
 
 /**
  * Perform the validation of the port number given in the CLI
@@ -68,4 +70,27 @@ export function getValidatedArgs(): Settings {
   }
 
   return settings;
+}
+
+/**
+ * Get the list of log files contained in the current directory (where the
+ * command is executed).
+ *
+ * @return  {string[]}
+ */
+export function getFileList(): string[] {
+  const result: string[] = [];
+
+  const files = glob.sync('**/*.log', { cwd: process.cwd() });
+
+  files.forEach((file: string) => {
+    const stats = fs.statSync(file);
+    if (stats.isFile()) {
+      result.push(file);
+    }
+  });
+
+  result.sort();
+
+  return result;
 }

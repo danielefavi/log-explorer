@@ -7,7 +7,7 @@ export default class Type3LogParserStrategy implements LogParserStrategy {
     const match = log.match(regex);
 
     if (match) {
-      let entry: LogEntry = { timestamp: '', message: '' };
+      let entry: LogEntry = {};
 
       entry.timestamp = match.groups!.timestamp;
       entry.ip = match.groups!.ip;

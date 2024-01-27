@@ -26,10 +26,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const glob = __importStar(require("glob"));
 const fs_1 = __importDefault(require("fs"));
 const log_parser_1 = __importDefault(require("../libs/log-parser"));
 const readLastLines = __importStar(require("read-last-lines"));
+const helpers_1 = require("../libs/helpers");
 class LogController {
     /**
      * The instance of the controller
@@ -65,25 +65,7 @@ class LogController {
      * @return  {Response<any, Record<string, any>>}
      */
     static getLogFiles(req, res) {
-        res.json(LogController.getInstance().getFileList());
-    }
-    /**
-     * Get the list of log files contained in the current directory (where the
-     * command is executed).
-     *
-     * @return  {string[]}
-     */
-    getFileList() {
-        const result = [];
-        const files = glob.sync('**/*.log', { cwd: process.cwd() });
-        files.forEach((file) => {
-            const stats = fs_1.default.statSync(file);
-            if (stats.isFile()) {
-                result.push(file);
-            }
-        });
-        result.sort();
-        return result;
+        res.json((0, helpers_1.getFileList)());
     }
     /**
      * Get the content of a log file and return it as JSON.
@@ -140,8 +122,7 @@ class LogController {
         const queryParams = req.query;
         const query = queryParams.query;
         const entries = [];
-        const files = LogController.getInstance().getFileList();
-        for (const file of files) {
+        for (const file of (0, helpers_1.getFileList)()) {
             const data = await readLastLines.read(file, 500); // reads last 1000 lines of the file.
             const lines = data.split('\n');
             const logParser = LogController.getInstance().logParser;
@@ -156,6 +137,14 @@ class LogController {
             }
         }
         res.json(entries);
+    }
+    /**
+     * Get the LogParser instance
+     *
+     * @return  {LogParser}
+     */
+    getLogParser() {
+        return this.logParser;
     }
 }
 exports.default = LogController;

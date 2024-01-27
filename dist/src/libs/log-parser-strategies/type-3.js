@@ -5,7 +5,7 @@ class Type3LogParserStrategy {
         const regex = /- \[(?<ip>.+?)\] \[(?<timestamp>.+?)\] - "(?<method>\w+) (?<url>.+?) (?<protocol>.+?)" (?<status>\d+) (?<size>\d+) "(?<referer>.+?)" "(?<user_agent>.+?)" (?<request_time>.+)/;
         const match = log.match(regex);
         if (match) {
-            let entry = { timestamp: '', message: '' };
+            let entry = {};
             entry.timestamp = match.groups.timestamp;
             entry.ip = match.groups.ip;
             entry.method = match.groups.method;

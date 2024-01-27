@@ -27,7 +27,8 @@ class CliController {
         }
     }
     /**
-     * Display the version of the package
+     * Display the version of the package when the CLI command is executed with
+     * the -v or --version option
      *
      * @returns void
      */

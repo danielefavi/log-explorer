@@ -1,11 +1,9 @@
-import * as glob from 'glob';
 import fs from 'fs';
 import { Request, Response } from 'express';
 import { LogEntry } from '../types/log-types';
 import LogParser from '../libs/log-parser';
 import * as readLastLines from 'read-last-lines';
-
-
+import { getFileList } from '../libs/helpers';
 
 export default class LogController {
 
@@ -48,30 +46,7 @@ export default class LogController {
    * @return  {Response<any, Record<string, any>>}
    */
   public static getLogFiles(req: Request, res: Response) {
-    res.json(LogController.getInstance().getFileList());
-  }
-  
-  /**
-   * Get the list of log files contained in the current directory (where the
-   * command is executed).
-   *
-   * @return  {string[]}
-   */
-  private getFileList(): string[] {
-    const result: string[] = [];
-
-    const files = glob.sync('**/*.log', { cwd: process.cwd() });
-
-    files.forEach((file: string) => {
-      const stats = fs.statSync(file);
-      if (stats.isFile()) {
-        result.push(file);
-      }
-    });
-
-    result.sort();
-
-    return result;
+    res.json(getFileList());
   }
 
   /**
@@ -135,9 +110,8 @@ export default class LogController {
     const queryParams = req.query;
     const query = queryParams.query as string;
     const entries: LogEntry[] = [];
-    const files = LogController.getInstance().getFileList();
     
-    for (const file of files) {
+    for (const file of getFileList()) {
       const data = await readLastLines.read(file, 500); // reads last 1000 lines of the file.
   
       const lines = data.split('\n');
@@ -155,6 +129,15 @@ export default class LogController {
     }
 
     res.json(entries);
+  }
+
+  /**
+   * Get the LogParser instance
+   *
+   * @return  {LogParser}
+   */
+  public getLogParser(): LogParser {
+    return this.logParser;
   }
 
 }

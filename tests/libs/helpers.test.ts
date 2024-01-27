@@ -1,4 +1,9 @@
-import { getPortFromArgs } from '../../src/libs/helpers'
+import * as glob from 'glob';
+import * as fs from 'fs';
+import { getPortFromArgs, getFileList } from '../../src/libs/helpers';
+
+jest.mock('glob');
+jest.mock('fs');
 
 describe('getPortFromArgs function', () => {
   let processArgv: string[] = [];
@@ -24,7 +29,29 @@ describe('getPortFromArgs function', () => {
   });
 
   it('should throw error when port number is not within valid range', () => {
-      processArgv = ['node', 'script.js', '--port', '70000'];
-      expect(() => getPortFromArgs(processArgv)).toThrowError(new Error('Error: --port is not a valid port number: the port should be port > 0 and port < 65535'));
+    processArgv = ['node', 'script.js', '--port', '70000'];
+    expect(() => getPortFromArgs(processArgv)).toThrowError(new Error('Error: --port is not a valid port number: the port should be port > 0 and port < 65535'));
+  });
+});  
+
+describe('getFileList', () => {
+  it('should return the list of log files', () => {
+    // Arrange
+    const mockGlobSync = glob.sync as jest.MockedFunction<typeof glob.sync>;
+    const mockFsStatSync = fs.statSync as jest.MockedFunction<typeof fs.statSync>;
+    const mockFiles = ['b-log-file1.log', 'another/log-file.log', 'c-log3.log'];
+    
+    mockGlobSync.mockReturnValue(mockFiles);
+    mockFsStatSync.mockImplementation(() => ({
+      isFile: () => true,
+    } as fs.Stats));
+    
+    const actual = getFileList();
+
+    expect(actual).toEqual(mockFiles.sort());
+    expect(mockGlobSync).toHaveBeenCalledWith('**/*.log', { cwd: process.cwd() });
+    mockFiles.forEach((file: string) => {
+      expect(mockFsStatSync).toHaveBeenCalledWith(file);
+    });
   });
 });
