@@ -1,3 +1,5 @@
+import { Settings } from '../types/log-types';
+
 /**
  * Perform the validation of the port number given in the CLI
  *
@@ -5,7 +7,7 @@
  *
  * @return  {number}
  */
-export function validateServerPort(port: string|undefined): number {
+function validateServerPort(port: string|undefined): number {
   if (typeof port === 'undefined') {
     throw new Error('Error: --port requires a port number');
   }
@@ -26,28 +28,44 @@ export function validateServerPort(port: string|undefined): number {
  *
  * @return  {number}
  */
-export function getPort(): number {
+export function getPortFromArgs(args : string[] = process.argv): number {
   let port = 4321;
   let inx = null;
 
-  if (process.argv.includes('--port')) {
-    inx = process.argv.indexOf('--port') + 1;
-  } else if (process.argv.includes('-p')) {
-    inx = process.argv.indexOf('-p') + 1;
+  if (args.includes('--port')) {
+    inx = args.indexOf('--port') + 1;
+  } else if (args.includes('-p')) {
+    inx = args.indexOf('-p') + 1;
   }
 
   if (inx !== null) {
-    try {
-      port = validateServerPort(process.argv[inx] as string);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error(error.message);
-      } else {
-        console.error(error);
-      }
-      process.exit(1);
-    }
+    port = validateServerPort(args[inx] as string);
   }
   
   return port;
+}
+
+/**
+ * Get the validated arguments from the CLI
+ *
+ * @return  {Settings}
+ */
+export function getValidatedArgs(): Settings {
+  const settings: Settings = {
+    port: 4321
+  };
+
+  try {
+    settings.port = getPortFromArgs();
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
+
+    process.exit(1);
+  }
+
+  return settings;
 }

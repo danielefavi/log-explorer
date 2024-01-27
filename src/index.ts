@@ -2,12 +2,15 @@
 
 import express, { Request, Response, NextFunction } from 'express';
 import child_process from 'child_process';
-import { getPort } from './libs/helpers';
+import { getValidatedArgs } from './libs/helpers';
 import apiRoutes from './routes/api';
 import CliController from './controllers/cli.controller';
 
 // Execute the CLI command in case of HELP or VERSION, otherwise starts the server
 CliController.exec(process);
+
+// getting the port number from the CLI arguments or using the default one
+const settings = getValidatedArgs();
 
 const app = express();
 
@@ -17,13 +20,11 @@ app.use('/public', express.static(__dirname + '/../public'));
 app.get('/', (req: Request, res: Response) => res.sendFile('index.html', { root: __dirname + '/../views' }));
 app.use('*', (req: Request, res: Response) => res.sendFile('404.html', { root: __dirname + '/../views' }));
 
-// getting the port number from the CLI arguments or using the default one
-const port = getPort();
 
 // starting the server
 app
-  .listen(port, () => {
-    const url = `http://localhost:${port}`;
+  .listen(settings.port, () => {
+    const url = `http://localhost:${settings.port}`;
 
     console.log(`Server started at ` + url);
 
@@ -38,7 +39,7 @@ app
       typeof err.code === 'string' &&
       err.code === 'EADDRINUSE'
     ) {
-      console.error(`Port ${port} is busy, please try another port using --port option`);
+      console.error(`Port ${settings.port} is busy, please try another port using --port option`);
       process.exit(1);
     } else {
       console.error(err);

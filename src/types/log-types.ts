@@ -5,3 +5,7 @@ export interface LogEntry {
 export interface LogParserStrategy {
   parse(log: string): LogEntry|null;
 }
+
+export interface Settings {
+  port: number;
+}
