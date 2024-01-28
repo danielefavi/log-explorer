@@ -14,7 +14,7 @@
   "repository": "git://github.com/danielefavi/log-explorer.git",
   "scripts": {
     "test": "jest",
-    "prepublish": "tsc",
+    "publish": "tsc",
     "dev": "nodemon --exec ts-node --transpile-only src/index.ts",
     "dev2": "NODE_ENV='development' nodemon --exec ts-node src/index.ts",
     "start": "node dist/index.js"
