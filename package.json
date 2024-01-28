@@ -20,7 +20,7 @@
     "start": "node dist/index.js"
   },
   "bin": {
-    "log-explorer": "./dist/index.js"
+    "log-explorer": "./dist/src/index.js"
   },
   "files": [
     "dist",
