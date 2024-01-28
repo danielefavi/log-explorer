@@ -1,6 +1,6 @@
 {
   "name": "log-explorer",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "Log Explorer: a simple tool to explore your logs through a web interface.",
   "license": "MIT",
   "keywords": [
