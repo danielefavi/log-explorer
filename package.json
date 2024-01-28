@@ -1,6 +1,6 @@
 {
   "name": "log-explorer",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Log Explorer: a simple tool to explore your logs through a web interface.",
   "license": "MIT",
   "keywords": [
@@ -14,7 +14,7 @@
   "repository": "git://github.com/danielefavi/log-explorer.git",
   "scripts": {
     "test": "jest",
-    "publish": "tsc",
+    "build": "tsc",
     "dev": "nodemon --exec ts-node --transpile-only src/index.ts",
     "dev2": "NODE_ENV='development' nodemon --exec ts-node src/index.ts",
     "start": "node dist/index.js"
